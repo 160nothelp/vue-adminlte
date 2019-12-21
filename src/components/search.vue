@@ -60,20 +60,28 @@
         methods:{
             search(){
                 showLoading();
-                this.$axios.post('/api/aliecs/host-ip-search', JSON.stringify({'category': this.searchOption, 'sdata': this.inputValue})).then((response) => {
+                let data = '';
+                if (this.searchOption === 'AllIP'){
+                    data = {'category': this.searchOption, 'sdata': this.inputValue}
+                }else if (this.searchOption === 'AllName'){
+                    data = {'category': this.searchOption, 'allname': this.inputValue}
+                }
+                this.$axios.post('/api/aliecs/search', data).then((response) => {
                     if (response.data['status'] === 'pass') {
                         hideLoading();
                     }else {
                         let ResultRefreshObj = setInterval(() => {
-                            this.GetSearchIpTaskResult(response.data['task_id']);
+                            this.GetSearchIpTaskResult(response.data['id']);
                             }, 2000);
                         this.intervalId = ResultRefreshObj
-                }
-                })
+                    }
+                }).catch(function (error) {
+                    hideLoading();
+                });
             },
             GetSearchIpTaskResult(task_id) {
                 let n_data = [];
-                this.$axios.get('/api/aliecs/get-host-ip-result', {params: {'task_id': task_id}}).then((response) => {
+                this.$axios.get(`/api/aliecs/get_search/${task_id}`).then((response) => {
                     if (! response.data['wait']){
                         response.data['search_data'].forEach((value) => {
                             if (value['user_type'] === 'aliuser') {

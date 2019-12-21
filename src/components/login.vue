@@ -64,6 +64,13 @@
                         });
                     }
                 })
+                // this.$axios.post('/api/user/login_', {'username': this.username, 'password': this.password}).then(response => {
+                //     this.set_token(response.data['token']);
+                //     this.$router.push({
+                //         path: '/'
+                //     });
+                // })
+
             },
             ...mapMutations({
                 set_token: "set_token"

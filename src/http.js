@@ -9,6 +9,7 @@ axios.interceptors.request.use(
   config => {
     showLoading();
     if (localStorage.getItem('token')){
+      //config.headers.Authorization = `JWT ${localStorage.getItem('token')}`;
       config.headers.common['X-CSRFToken'] = localStorage.getItem('token')
     }
     return config
