@@ -34,7 +34,7 @@
         },
         methods:{
             base_data(){
-                this.$axios.get('/api/aliecs/index-base').then((response) => {
+                this.$axios.get('/api/user/index-base').then((response) => {
                     this.username = response.data['username']
                 })
             }

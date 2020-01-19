@@ -8,7 +8,7 @@
     ]">
         <el-input type="password" v-model="form.oldpassword" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="旧密码：" :label-width="formLabelWidth" prop="newpassword" :rules="[
+      <el-form-item label="新密码：" :label-width="formLabelWidth" prop="newpassword" :rules="[
       { required: true, message: '新密码不能为空'},
     ]">
         <el-input type="password" v-model="form.newpassword" autocomplete="off"></el-input>
@@ -28,7 +28,6 @@
 
 <script>
     import {mapMutations} from 'vuex'
-    import qs from 'qs'
 
     export default {
         name: "chang_password",
@@ -44,7 +43,8 @@
             }
         },
         methods: {
-            closeDialogVisible(){
+            closeDialogVisible() {
+                // 清空form表单的数据
                 this.$refs.change_password.resetFields();
                 this.set_dialogFormVisible(false);
                 this.change_message = ''
@@ -53,33 +53,20 @@
                 del_token: "del_token",
                 set_dialogFormVisible: 'set_dialogFormVisible'
             }),
-            Change_password(){
-                let dataObj_ = {'oldpasswd': this.form.oldpassword, 'newpasswd1': this.form.newpassword, 'newpasswd2': this.form.checkpassword};
-                let dataObj = qs.stringify(dataObj_);
-                this.$axios({
-                    method: 'post',
-                    url: '/api/user/change-password',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    data: dataObj,
-                }).then((response) => {
-                    if (response.data['Status'] === 'ok') {
-                        this.closeDialogVisible();
-                        this.del_token();
-                        this.$router.push({
-                            path: '/login'
-                        });
-                    }
-                    if (response.data['Status'] === 'erroroldpasswd'){
-                        this.change_message = '原密码错误！';
-                    }
-                    if (response.data['Status'] === 'newpasswdnosame'){
-                        this.change_message = '两次密码不一致！';
-                    }
-                });
+            Change_password() {
+                this.$axios.post('/api/user/change-password', {'old_password': this.form.oldpassword,
+                    'new_password': this.form.newpassword, 'check_password': this.form.checkpassword}).then((response) => {
+                    this.closeDialogVisible();
+                    this.del_token();
+                    this.$router.push({
+                        path: '/login'
+                    })
+                    }).catch((error) => {
+                    this.change_message = error.response.data
+                })
             }
         },
+
         computed: {
             dialogFormVisible(){
                 return this.$store.getters['get_dialogFormVisible']

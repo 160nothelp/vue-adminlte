@@ -53,14 +53,18 @@
         },
         methods:{
             logout(){
-                this.$axios.get('/api/user/logout').then((response) => {
-                    if (response.data['logout']) {
-                        this.del_token();
-                        this.$router.push({
-                            path: '/login'
-                        });
-                    }
-                })
+                // this.$axios.get('/api/user/logout').then((response) => {
+                //     if (response.data['logout']) {
+                //         this.del_token();
+                //         this.$router.push({
+                //             path: '/login'
+                //         });
+                //     }
+                // })
+                this.del_token();
+                this.$router.push({
+                    path: '/login'
+                });
             },
             openDialogVisible(){
                 this.dialogFormVisible = true;

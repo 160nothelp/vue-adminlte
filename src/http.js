@@ -9,8 +9,8 @@ axios.interceptors.request.use(
   config => {
     showLoading();
     if (localStorage.getItem('token')){
-      //config.headers.Authorization = `JWT ${localStorage.getItem('token')}`;
-      config.headers.common['X-CSRFToken'] = localStorage.getItem('token')
+      config.headers.Authorization = `JWT ${localStorage.getItem('token')}`;
+      //config.headers.common['X-CSRFToken'] = localStorage.getItem('token')
     }
     return config
   },
@@ -23,14 +23,6 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     hideLoading();
-    if(response.data['nologin']) {
-      store.commit('del_token');
-        // 只有在当前路由不是登录页面才跳转
-        router.currentRoute.path !== '/login' &&
-        router.replace({
-          path: '/login',
-        })
-    }
     if(response.data['permission']){
       router.replace({
         path: '/permission-denied',
@@ -39,9 +31,17 @@ axios.interceptors.response.use(
     return response
   },
   error => {
-    if (error.response) {
-      hideLoading();
+    hideLoading();
+    switch(error.response.status) {
+      case 401:
+        store.commit('del_token');
+        // 只有在当前路由不是登录页面才跳转
+        router.currentRoute.path !== '/login' &&
+        router.replace({
+          path: '/login',
+        })
     }
+    return Promise.reject(error);
   }
 );
 export default axios

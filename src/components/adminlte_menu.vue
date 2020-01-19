@@ -45,6 +45,15 @@
             </span>
           </router-link>
         </li>
+        <li class="treeview" ref="worktickets">
+          <router-link to="/worktickets" >
+            <i class="fa fa-th"></i> <span>工单</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </router-link>
+        </li>
+
       </ul>
     </section>
   </aside>

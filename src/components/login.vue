@@ -42,34 +42,16 @@
         },
         methods: {
             onSubmit(){
-                let dataObj_ = {'username': this.username, 'password': this.password};
-                let dataObj = qs.stringify(dataObj_);
-                this.$axios({
-                    method: 'post',
-                    url: '/api/user/login',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    data: dataObj,
-                }).then((response)=>{
-                    this.login_status = response.data['status'];
-                    if (this.login_status === 'u'){
-                        this.login_message = '登陆失败，账号或密码错误'
-                    }else if (this.login_status === 'a'){
-                        this.login_message = '账号未启用，请联系管理员'
-                    }else {
-                        this.set_token(response.data['token']);
-                        this.$router.push({
-                            path: '/'
-                        });
+                this.$axios.post('/api/user/login', {'username': this.username, 'password': this.password}).then(response => {
+                    this.set_token(response.data['token']);
+                    this.$router.push({
+                        path: '/'
+                    });
+                }).catch((error) => {
+                    if("non_field_errors" in error.response.data){
+                        this.login_message = '用户名密码错误';
                     }
                 })
-                // this.$axios.post('/api/user/login_', {'username': this.username, 'password': this.password}).then(response => {
-                //     this.set_token(response.data['token']);
-                //     this.$router.push({
-                //         path: '/'
-                //     });
-                // })
 
             },
             ...mapMutations({

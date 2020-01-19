@@ -9,6 +9,7 @@ import Search from '../components/search'
 import EcsDeatil from '../components/ecs_detail'
 import switch_gtm from "../components/switch_gtm"
 import permission_denied from "../components/permission_denied"
+import worktickets from '../components/worktickets/worktickets'
 
 Vue.use(Router);
 
@@ -78,6 +79,13 @@ const router = new Router({
             title: 'ops'
           },
           component: permission_denied
+        },
+        {
+          path: 'worktickets',
+          meta: {
+            title: 'ops'
+          },
+          component: worktickets
         },
         ]
     }
