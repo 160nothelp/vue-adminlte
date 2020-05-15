@@ -1,15 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Login from '../components/login'
-import Lte from '../components/lte'
-import Hosts from '../components/hosts_page'
-import Slb from '../components/slb_page'
-import Search from '../components/search'
-import EcsDeatil from '../components/ecs_detail'
-import switch_gtm from "../components/switch_gtm"
-import permission_denied from "../components/permission_denied"
+import Login from '../components/user/login'
+import Lte from '../components/adminlte/lte'
+import Hosts from '../components/hosts_slb/hosts_page'
+import Slb from '../components/hosts_slb/slb_page'
+import Search from '../components/hosts_slb/search'
+import EcsDeatil from '../components/hosts_slb/ecs_detail'
+import switch_gtm from "../components/gtm/switch_gtm"
+import permission_denied from "../components/user/permission_denied"
 import worktickets from '../components/worktickets/worktickets'
+import addworkticket from '../components/worktickets/addworkticket.vue'
+import viewworkticket from '../components/worktickets/viewworkticket.vue'
+import editworkticket from '../components/worktickets/editworkticket.vue'
+import editworktype from '../components/worktickets/editworktype.vue'
+import tmp_cyt_iptables from '../components/gtm/tmp_cyt_iptables.vue'
+import shadowsocks_vpn from "../components/gtm/shadowsocks_vpn";
+import create_vpn_task from "../components/gtm/create_vpn_task";
+import forward from "../components/gtm/forward";
+import create_forward_task from "../components/gtm/create_forward_task";
+import dashboard from "../components/index_dashboard/dashboard";
+
 
 Vue.use(Router);
 
@@ -30,7 +41,7 @@ const router = new Router({
       children: [
         {
           path: '/',
-          redirect: 'hosts'
+          redirect: 'index'
         },
         {
           path: 'hosts',
@@ -74,11 +85,11 @@ const router = new Router({
           component: switch_gtm
         },
         {
-          path: 'permission-denied',
+          path: 'index',
           meta: {
             title: 'ops'
           },
-          component: permission_denied
+          component: dashboard
         },
         {
           path: 'worktickets',
@@ -87,7 +98,72 @@ const router = new Router({
           },
           component: worktickets
         },
+        {
+          path: 'addworkticket',
+          meta: {
+            title: 'ops'
+          },
+          component: addworkticket
+        },
+        {
+          path: 'viewworkticket/:item',
+          meta: {
+            title: 'ops'
+          },
+          component: viewworkticket
+        },
+        {
+          path: 'editworkticket/:item',
+          meta: {
+            title: 'ops'
+          },
+          component: editworkticket
+        },
+        {
+          path: 'editworktype',
+          meta: {
+            title: 'ops'
+          },
+          component: editworktype
+        },
+        {
+          path: 'cyt-iptables',
+          meta: {
+            title: 'ops'
+          },
+          component: tmp_cyt_iptables
+        },
+        {
+          path: 'create_shadowsocks_vpn',
+          meta: {
+            title: 'ops'
+          },
+          component: shadowsocks_vpn
+        },
+        {
+          path: 'create_forward',
+          meta: {
+            title: 'ops'
+          },
+          component: forward
+        }
         ]
+    },
+    {
+      path: '/create_vpn_task/:amount/:item',
+      name: 'cvt',
+      component: create_vpn_task,
+      meta: {
+        title: 'ops'
+      }
+    },
+    {
+      path: '/create_forward_task/:amount/:item',
+      name: 'cft',
+      component: create_forward_task,
+      meta: {
+        title: 'ops'
+      }
     }
   ]
 });

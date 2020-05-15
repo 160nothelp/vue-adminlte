@@ -17,6 +17,13 @@ module.exports = {
         pathRewrite: {
           '^/api': '/api',//重写,
         }
+      },
+      '/wiki': {
+        target: 'http://cmdb.godeng.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/wiki': '/wiki',//重写,
+        }
       }
     },
 

@@ -15,7 +15,23 @@ const mutations = {
   },
   [types.set_dialogFormVisible](state,dialogFormVisible){
 	  state.dialogFormVisible = dialogFormVisible
-  }
+  },
+  [types.set_create_vpn](state, status){
+	  state.create_vpn = status;
+    localStorage.setItem('create_vpn', status)
+  },
+  [types.del_create_vpn](state){
+	  localStorage.removeItem('create_vpn');
+    state.create_vpn = null
+  },
+  [types.set_create_forward](state, status){
+	  state.create_forward = status;
+    localStorage.setItem('create_forward', status)
+  },
+  [types.del_create_forward](state){
+	  localStorage.removeItem('create_forward');
+    state.create_forward = null
+  },
 };
 
 export default mutations

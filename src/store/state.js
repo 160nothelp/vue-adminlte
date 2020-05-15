@@ -1,7 +1,9 @@
 const state = {
 	login_token: '',
   userlist: '',
-  dialogFormVisible: false
+  dialogFormVisible: false,
+  create_vpn: '',
+  create_forward: '',
 };
 
 export default state
